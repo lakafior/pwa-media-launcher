@@ -22,7 +22,7 @@
     },
     {
       "name": "Plex",
-      "url": "plex://",
+      "url": "http://127.0.0.1:32400/web/index.html#!/",
       "icon": "images/plex.png",
       "color": "#E5A00D"
     },
@@ -46,7 +46,7 @@
     },
     {
       "name": "Apple TV",
-      "url": "tv://",
+      "url": "videos://",
       "icon": "images/atv.svg",
       "color": "#FFFFFF"
     },
@@ -64,3 +64,4 @@
     }
   ]
 }
+
