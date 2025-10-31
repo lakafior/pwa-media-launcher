@@ -1,0 +1,66 @@
+{
+  "title": "Media Launcher",
+  "wallpaper": "images/wallpaper.jpg",
+  "apps": [
+    {
+      "name": "YouTube",
+      "url": "https://www.youtube.com",
+      "icon": "images/youtube.png",
+      "color": "#FF0000"
+    },
+    {
+      "name": "Twitch",
+      "url": "https://www.twitch.tv",
+      "icon": "images/twitch.png",
+      "color": "#9146FF"
+    },
+    {
+      "name": "Kick",
+      "url": "https://kick.com",
+      "icon": "images/kick.png",
+      "color": "#53FC18"
+    },
+    {
+      "name": "Plex",
+      "url": "plex://",
+      "icon": "images/plex.png",
+      "color": "#E5A00D"
+    },
+    {
+      "name": "Stremio",
+      "url": "stremio://",
+      "icon": "images/stremio.svg",
+      "color": "#113CCF"
+    },
+    {
+      "name": "Prime Video",
+      "url": "https://www.primevideo.com",
+      "icon": "images/prime.png",
+      "color": "#00A8E1"
+    },
+    {
+      "name": "Audiobookshelf",
+      "url": "https://abs.smigi.net",
+      "icon": "images/abs.png",
+      "color": "#ba9f2f"
+    },
+    {
+      "name": "Apple TV",
+      "url": "tv://",
+      "icon": "images/atv.svg",
+      "color": "#FFFFFF"
+    },
+    {
+      "name": "Apple Music",
+      "url": "music://",
+      "icon": "images/am.svg",
+      "color": "#FF0436"
+    },
+    {
+      "name": "Apple Podcasts",
+      "url": "podcasts://",
+      "icon": "images/ap.svg",
+      "color": "#D56DFB"
+    }
+  ]
+}

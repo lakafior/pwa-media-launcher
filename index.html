@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Launcher</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Apple TV-style media launcher for macOS">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Media">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="images/icon-192.png">
+    <link rel="apple-touch-icon" href="images/icon-512.png">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Gradient overlay for smooth background transitions -->
+    <div class="background-overlay"></div>
+      <!-- Search backdrop -->
+    <div class="search-backdrop" id="search-backdrop"></div>
+    
+    <!-- Help Overlay -->
+    <div class="help-overlay" id="help-overlay">
+        <div class="help-content">
+            <h2>⌨️ Keyboard Shortcuts</h2>
+            <div class="help-grid">
+                <div class="help-item">
+                    <kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd>
+                    <span>Navigate icons</span>
+                </div>
+                <div class="help-item">
+                    <kbd>Enter</kbd> / <kbd>Space</kbd>
+                    <span>Open selected app</span>
+                </div>                <div class="help-item">
+                    <kbd>1</kbd> - <kbd>9</kbd>, <kbd>0</kbd>
+                    <span>Quick launch (first 10 apps)</span>
+                </div>
+                <div class="help-item">
+                    <kbd>/</kbd> or <kbd>⌘</kbd> <kbd>K</kbd>
+                    <span>Open search</span>
+                </div>
+                <div class="help-item">
+                    <kbd>ESC</kbd>
+                    <span>Clear selection / Close</span>
+                </div>
+                <div class="help-item">
+                    <kbd>?</kbd>
+                    <span>Show this help</span>
+                </div>
+            </div>
+            <div class="help-footer">Press <kbd>ESC</kbd> or <kbd>?</kbd> to close</div>
+        </div>
+    </div>
+      <!-- Spotlight-style Search (outside container for proper overlay) -->
+    <div class="search-container" id="search-container">
+        <input 
+            type="text" 
+            id="search-input" 
+            class="search-input" 
+            placeholder="Search apps..."
+            autocomplete="off"
+            spellcheck="false"
+        >
+        
+        <!-- Search Results List -->
+        <div class="search-results" id="search-results">
+            <!-- Dynamically populated -->
+        </div>
+        
+        <div class="search-hint">↑↓ to navigate • Enter to open • ESC to close</div>
+    </div>
+    
+    <div class="container">
+        <header>
+            <h1 class="title">Media</h1>
+            <div class="time" id="current-time"></div>
+        </header>
+        
+        <main class="icon-grid" id="icon-grid">
+            <!-- Icons loaded from config.json -->
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(() => console.log('Service Worker registered'))
+                .catch(err => console.log('Service Worker registration failed:', err));
+        }
+    </script>
+</body>
+</html>
