@@ -40,7 +40,7 @@
     },
     {
       "name": "Audiobookshelf",
-      "url": "https://abs.smigi.net",
+      "url": "http://127.0.0.1:13378",
       "icon": "images/abs.png",
       "color": "#ba9f2f"
     },
@@ -64,4 +64,5 @@
     }
   ]
 }
+
 
