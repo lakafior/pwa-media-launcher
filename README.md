@@ -6,9 +6,9 @@
 
 ![Status](https://img.shields.io/badge/Status-Ready-green) ![PWA](https://img.shields.io/badge/PWA-Enabled-blue) ![Platform](https://img.shields.io/badge/Platform-macOS-blue)
 
-
 ## 🎯 What is this?
 
+<img width="1470" height="815" alt="image" src="https://github.com/user-attachments/assets/02d541ad-aadf-40b8-ac66-1747088b6522" />
 
 A beautiful, keyboard-navigable launcher for your favorite streaming services and apps. Works as a Progressive Web App (PWA) - install it once, launch from Dock like a native app.
 
