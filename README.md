@@ -1,27 +1,160 @@
 # 📺 Media Launcher
 
-
-> Apple TV-inspired PWA media launcher for macOS. Install it as a standalone app in your Dock.
-
+> Apple TV-inspired PWA media launcher with direct app search. Better than Apple TV.
 
 ![Status](https://img.shields.io/badge/Status-Ready-green) ![PWA](https://img.shields.io/badge/PWA-Enabled-blue) ![Platform](https://img.shields.io/badge/Platform-macOS-blue)
 
-## 🎯 What is this?
+<img width="1470" alt="Media Launcher" src="https://github.com/user-attachments/assets/02d541ad-aadf-40b8-ac66-1747088b6522" />
 
-<img width="1470" height="815" alt="image" src="https://github.com/user-attachments/assets/02d541ad-aadf-40b8-ac66-1747088b6522" />
+## ✨ Features
 
-A beautiful, keyboard-navigable launcher for your favorite streaming services and apps. Works as a Progressive Web App (PWA) - install it once, launch from Dock like a native app.
+**Navigation:**
+- 🎨 Apple TV-style UI with smooth animations
+- ⌨️ Full keyboard navigation (arrows, 1-9/0 shortcuts)
+- 🔍 **Quick Search** - search directly in apps (YouTube, Twitch, Plex, etc.)
+- 📍 Spotlight search (`/`) - find and launch apps
+- 🖱️ Mouse + keyboard harmony
 
+**Configuration:**
+- 💾 Export/Import with Base64 icons - portable, no separate files needed
+- 🔄 Reset to default config from GitHub
+- 💿 localStorage caching for speed
+- 🌐 Custom URL schemes support (`plex://`, `stremio://`, etc.)
 
-**Key Features:**
-- 🎨 **Apple TV-style UI** with smooth animations and hover effects
-- ⌨️ **Full keyboard navigation** (arrows, number shortcuts 0-9, search)
-- 🔍 **Spotlight-style search** (`/` or `Cmd+K`)
-- 📱 **PWA support** - install to Dock, works offline
-- 🌐 **Custom URL schemes** - supports `plex://`, `stremio://`, `music://`, etc.
-- 🎭 **Dynamic gradients** - generated from app colors
-- 🖱️ **Mouse + keyboard harmony** - no conflicts between navigation modes
-- 💾 **Export/Import configs** - backup your setup with icons as Base64 (NEW!)
+**Installation:**
+- 📱 PWA - install to Dock, works offline
+- 🎭 Dynamic gradients from app colors
+
+## 🚀 Quick Start
+
+```bash
+git clone https://github.com/lakafior/pwa-media-launcher.git
+cd pwa-media-launcher
+
+# Edit config.json with your apps
+# Deploy to GitHub Pages or run locally:
+npx serve
+```
+
+**Install as PWA:**
+1. Open in Safari
+2. Share → **Add to Dock**
+3. Launch from Dock 🎉
+
+## 🔍 Quick Search
+
+Search directly in your apps from the header bar:
+
+**With prefix:**
+- `y inception` → Search "inception" in YouTube
+- `t summit1g` → Search "summit1g" in Twitch  
+- `k xqc` → Search in Kick
+- `o breaking bad` → Search in Omni
+- `p avatar` → Search in Plex
+- `s interstellar` → Search in Stremio
+- `d movies` → Search in DMM
+
+**Without prefix:**
+- `inception` → Shows dropdown of all searchable apps
+- Use ↑↓ arrows to select, Enter to search
+
+**Visual hints:** Search keys appear in bottom-right corner on hover (Y, T, K, etc.)
+
+## ⚙️ Configuration
+
+### config.json Structure
+
+```json
+{
+  "title": "Media Launcher",
+  "wallpaper": "images/wallpaper.jpg",
+  "apps": [
+    {
+      "name": "YouTube",
+      "url": "https://www.youtube.com",
+      "icon": "images/youtube.png",
+      "color": "#FF0000",
+      "searchUrl": "https://www.youtube.com/results?search_query=%s",
+      "searchKey": "y"
+    }
+  ]
+}
+```
+
+**Fields:**
+- `name` - Display name
+- `url` - Launch URL (supports custom schemes)
+- `icon` - Icon path (PNG/SVG, 512x512+)
+- `color` - Hex color for gradients
+- `searchUrl` - Search URL template (`%s` = query) *(optional)*
+- `searchKey` - Single letter for quick search *(optional)*
+
+### Export/Import
+
+**Export:**
+1. ⚙️ Settings → 💾 Export Configuration
+2. Downloads JSON with icons as Base64
+3. Share between devices or backup
+
+**Import:**
+1. ⚙️ Settings → 📥 Import Configuration
+2. Select exported JSON
+3. Page reloads with new config
+
+**Reset:**
+- ⚙️ Settings → 🔄 Reset to Default
+- Clears localStorage, loads from GitHub
+
+## ⌨️ Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| `←` `→` `↑` `↓` | Navigate icons |
+| `Enter` / `Space` | Launch app |
+| `1`-`9`, `0` | Quick launch (first 10 apps) |
+| `/` or `Cmd+K` | Search apps (Spotlight) |
+| `?` | Help overlay |
+| `ESC` | Clear / Close |
+
+**Quick Search shortcuts:** Type search key + space + query (e.g., `y cats`)
+
+## 🎨 Popular Brand Colors
+
+```
+YouTube: #FF0000  Twitch: #9146FF  Kick: #53FC18  Netflix: #E50914
+Plex: #E5A00D  Stremio: #113CCF  Spotify: #1DB954  Prime: #00A8E1
+Apple TV: #2c302d  Disney+: #113CCF  Omni: #DC08A4
+```
+
+## 📁 Project Structure
+
+```
+├── index.html              # Main app
+├── style.css               # Styles
+├── script.js               # Logic
+├── config.json             # App configuration
+├── manifest.json           # PWA manifest
+├── service-worker.js       # Offline support
+├── icon-generator.html     # Emoji → icon tool
+└── images/                 # Icons & wallpaper
+```
+
+## 🛠️ Tech Stack
+
+- Vanilla JavaScript (no frameworks)
+- CSS3 (backdrop-filter, animations, custom properties)
+- Progressive Web App
+- localStorage API
+
+## 📝 Requirements
+
+- HTTP server (GitHub Pages, local, etc.)
+- Safari for PWA on macOS
+- macOS for custom URL schemes
+
+---
+
+**Made with ❤️ for macOS**
 
 
 ## 🚀 Deploy
