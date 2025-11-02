@@ -227,7 +227,7 @@ header {
     border-radius: 12px;
     max-height: 400px;
     overflow-y: auto;
-    z-index: 1000;
+    z-index: 10000;
     display: none;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
@@ -612,6 +612,32 @@ header {
 
 .icon-link:hover::before,
 .icon-link.keyboard-focused::before {
+    opacity: 1;
+}
+
+/* Search key indicator (bottom-right) */
+.icon-link[data-search-key]::after {
+    content: attr(data-search-key);
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    padding: 4px 8px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: monospace;
+    color: rgba(255, 255, 255, 0.7);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+    pointer-events: none;
+    text-transform: uppercase;
+}
+
+.icon-link[data-search-key]:hover::after,
+.icon-link[data-search-key].keyboard-focused::after {
     opacity: 1;
 }
 

@@ -38,6 +38,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         link.dataset.url = app.url;
         link.dataset.color = app.color;
         link.style.animationDelay = `${index * 0.05}s`;
+        
+        // Add search key if available
+        if (app.searchKey) {
+            link.dataset.searchKey = app.searchKey;
+        }
 
         const card = document.createElement('div');
         card.className = 'icon-card';
