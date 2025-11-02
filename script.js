@@ -785,8 +785,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         quickSearchInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
+                e.stopPropagation();
                 handleQuickSearch(quickSearchInput.value.trim());
             } else if (e.key === 'Escape') {
+                e.preventDefault();
+                e.stopPropagation();
                 quickSearchInput.value = '';
                 searchHint.textContent = '';
                 quickSearchInput.blur();
