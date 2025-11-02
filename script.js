@@ -644,7 +644,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Reset to default configuration
-    async function resetToDefault() {
+    function resetToDefault() {
         if (!confirm('Are you sure you want to reset to default configuration? This will remove all local changes.')) {
             return;
         }
@@ -653,17 +653,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Clear localStorage
             localStorage.removeItem('mediaLauncherConfig');
             
-            // Load fresh config from GitHub
-            const response = await fetch('config.json');
-            if (!response.ok) throw new Error('Failed to load default config');
+            // Show success message
+            showToast('✅ Configuration reset! Reloading...', 2000);
             
-            currentConfig = await response.json();
-            
-            // Reinitialize the app
-            await init(currentConfig);
-            
-            showToast('✅ Configuration reset to default!', 3000);
-            closeSettingsPanel();
+            // Reload page after a short delay
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
         } catch (error) {
             console.error('Reset failed:', error);
             showToast('❌ Failed to reset configuration!', 4000);
