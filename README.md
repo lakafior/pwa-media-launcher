@@ -4,7 +4,7 @@
 
 ![Status](https://img.shields.io/badge/Status-Ready-green) ![PWA](https://img.shields.io/badge/PWA-Enabled-blue) ![Platform](https://img.shields.io/badge/Platform-macOS-blue)
 
-<img width="1470" alt="Media Launcher" src="https://github.com/user-attachments/assets/02d541ad-aadf-40b8-ac66-1747088b6522" />
+<img width="1470" height="814" alt="image" src="https://github.com/user-attachments/assets/23781d83-0f54-4a64-a7ac-72b92f9dabea" />
 
 ## ✨ Features
 
