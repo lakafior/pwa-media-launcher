@@ -957,6 +957,17 @@ header {
     transform: translateY(-2px);
 }
 
+.btn-danger {
+    background: rgba(255, 59, 48, 0.2);
+    border: 1px solid rgba(255, 59, 48, 0.4);
+}
+
+.btn-danger:hover {
+    background: rgba(255, 59, 48, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 59, 48, 0.3);
+}
+
 .btn:active {
     transform: translateY(0);
 }

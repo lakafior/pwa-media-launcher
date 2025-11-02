@@ -643,6 +643,33 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // Reset to default configuration
+    async function resetToDefault() {
+        if (!confirm('Are you sure you want to reset to default configuration? This will remove all local changes.')) {
+            return;
+        }
+
+        try {
+            // Clear localStorage
+            localStorage.removeItem('mediaLauncherConfig');
+            
+            // Load fresh config from GitHub
+            const response = await fetch('config.json');
+            if (!response.ok) throw new Error('Failed to load default config');
+            
+            currentConfig = await response.json();
+            
+            // Reinitialize the app
+            await init(currentConfig);
+            
+            showToast('✅ Configuration reset to default!', 3000);
+            closeSettingsPanel();
+        } catch (error) {
+            console.error('Reset failed:', error);
+            showToast('❌ Failed to reset configuration!', 4000);
+        }
+    }
+
     // Event listeners
     settingsBtn.addEventListener('click', openSettings);
     closeSettings.addEventListener('click', closeSettingsPanel);
@@ -660,6 +687,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             importConfiguration(file);
         }
     });
+    
+    const resetBtn = document.getElementById('reset-config');
+    resetBtn.addEventListener('click', resetToDefault);
 
     // Close settings with ESC
     document.addEventListener('keydown', (e) => {
