@@ -233,6 +233,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function handleKeyboard(e) {
         if (icons.length === 0) return;
+        
+        // Don't handle keyboard navigation if Quick Search is focused
+        const quickSearchInput = document.getElementById('quick-search');
+        if (quickSearchInput && document.activeElement === quickSearchInput) {
+            return;
+        }
 
         const cols = getGridColumns();
         const maxIndex = icons.length - 1;
@@ -318,8 +324,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     let filteredApps = [];    function setupSearch() {
         // Open search with / or Cmd+K
         document.addEventListener('keydown', (e) => {
+            // Don't handle shortcuts if Quick Search is focused
+            const quickSearchInput = document.getElementById('quick-search');
+            const isQuickSearchActive = quickSearchInput && document.activeElement === quickSearchInput;
+            
             // Toggle help with ?
-            if (e.key === '?' && !isSearchActive) {
+            if (e.key === '?' && !isSearchActive && !isQuickSearchActive) {
                 e.preventDefault();
                 toggleHelp();
                 return;
@@ -332,7 +342,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             
             // Open search
-            if (e.key === '/' || (e.metaKey && e.key === 'k') || (e.ctrlKey && e.key === 'k')) {
+            if ((e.key === '/' || (e.metaKey && e.key === 'k') || (e.ctrlKey && e.key === 'k')) && !isQuickSearchActive) {
                 e.preventDefault();
                 openSearch();
             }
@@ -341,8 +351,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 closeSearch();
             }
             
-            // Number shortcuts (1-9, 0) when search is NOT active
-            if (!isSearchActive && !isHelpActive) {
+            // Number shortcuts (1-9, 0) when search is NOT active and Quick Search is NOT focused
+            if (!isSearchActive && !isHelpActive && !isQuickSearchActive) {
                 if (e.key >= '1' && e.key <= '9') {
                     const index = parseInt(e.key) - 1;
                     if (icons[index]) {
