@@ -479,19 +479,19 @@ header {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    padding: 30px;
+    padding: 20px;
     filter: drop-shadow(0 4px 8px var(--shadow));
     transition: all var(--transition-speed) ease;
 }
 
 /* Square/tall icons (like app icons) - less padding for bigger display */
 .icon-card.square-icon img {
-    padding: 18px;
+    padding: 10px;
 }
 
 /* Very square icons (1:1 ratio) - minimal padding, fills more space */
 .icon-card.app-icon img {
-    padding: 12px;
+    padding: 8px;
 }
 
 .icon-name {
@@ -699,6 +699,18 @@ header {
         gap: 25px;
     }
     
+    .icon-card img {
+        padding: 15px;
+    }
+    
+    .icon-card.square-icon img {
+        padding: 8px;
+    }
+    
+    .icon-card.app-icon img {
+        padding: 6px;
+    }
+    
     .icon-name {
         font-size: 18px;
     }
@@ -723,16 +735,16 @@ header {
     }
     
     .icon-card img {
-        padding: 20px;
+        padding: 12px;
     }
     
     /* Adjust padding for square icons on mobile */
     .icon-card.square-icon img {
-        padding: 12px;
+        padding: 6px;
     }
     
     .icon-card.app-icon img {
-        padding: 8px;
+        padding: 5px;
     }
 }
 
