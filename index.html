@@ -81,13 +81,69 @@
     <div class="container">
         <header>
             <h1 class="title">Media</h1>
-            <div class="time" id="current-time"></div>
+            <div class="header-actions">
+                <button class="settings-btn" id="settings-btn" title="Settings">⚙️</button>
+                <div class="time" id="current-time"></div>
+            </div>
         </header>
         
         <main class="icon-grid" id="icon-grid">
             <!-- Icons loaded from config.json -->
         </main>
     </div>
+
+    <!-- Settings Panel -->
+    <div class="settings-overlay" id="settings-overlay">
+        <div class="settings-panel">
+            <div class="settings-header">
+                <h2>⚙️ Settings</h2>
+                <button class="close-btn" id="close-settings">✕</button>
+            </div>
+            
+            <div class="settings-content">
+                <div class="settings-section">
+                    <h3>📦 Configuration</h3>
+                    
+                    <div class="settings-group">
+                        <button class="btn btn-primary" id="export-config">
+                            <span>💾 Export Configuration</span>
+                            <small>Download current setup with icons</small>
+                        </button>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <button class="btn btn-secondary" id="import-config">
+                            <span>📥 Import Configuration</span>
+                            <small>Load setup from file</small>
+                        </button>
+                        <input type="file" id="import-file" accept=".json" style="display: none;">
+                    </div>
+                    
+                    <div class="settings-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="include-icons" checked>
+                            <span>Include icons as base64 in export</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>ℹ️ Info</h3>
+                    <div class="info-item">
+                        <span>Total apps:</span>
+                        <strong id="total-apps">0</strong>
+                    </div>
+                    <div class="info-item">
+                        <span>Last modified:</span>
+                        <strong id="last-modified">-</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
 
     <script src="script.js"></script>
     

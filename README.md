@@ -21,6 +21,7 @@ A beautiful, keyboard-navigable launcher for your favorite streaming services an
 - 🌐 **Custom URL schemes** - supports `plex://`, `stremio://`, `music://`, etc.
 - 🎭 **Dynamic gradients** - generated from app colors
 - 🖱️ **Mouse + keyboard harmony** - no conflicts between navigation modes
+- 💾 **Export/Import configs** - backup your setup with icons as Base64 (NEW!)
 
 
 ## 🚀 Deploy
@@ -107,11 +108,29 @@ Or use your own:
 - `images/icon-512.png` (512x512)
 
 
-### 4. Popular Brand Colors
+### 4. Export/Import Configuration 💾
+
+**NEW!** No need to manually edit `config.json` or manage icon files anymore!
+
+**Export:**
+1. Click ⚙️ Settings button (top right)
+2. Click "💾 Export Configuration"
+3. Download includes all apps + icons as Base64
+4. Share file between devices or keep as backup
+
+**Import:**
+1. Click ⚙️ Settings → "📥 Import Configuration"  
+2. Select your exported `.json` file
+3. Done! Everything restored including icons
+
+📖 **See [EXPORT-IMPORT-GUIDE.md](./EXPORT-IMPORT-GUIDE.md) for detailed instructions**
+
+
+### 5. Popular Brand Colors
 ```
-YouTube:  #FF0000    Netflix:  #E50914    Twitch:   #9146FF
-Spotify:  #1DB954    Disney+:  #113CCF    Prime:    #00A8E1
-Plex:     #E5A00D    Stremio:  #113CCF    Apple TV: #2c302d
+YouTube:  #FF0000    Netflix:  #E50914    Twitch:   #9146FF
+Spotify:  #1DB954    Disney+:  #113CCF    Prime:    #00A8E1
+Plex:     #E5A00D    Stremio:  #113CCF    Apple TV: #2c302d
 ```
 
 

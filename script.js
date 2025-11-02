@@ -237,32 +237,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 break;
         }
     }    // Init
-    async function init() {
-        const config = await loadConfig();
-        
-        setWallpaper(config.wallpaper);
-        
-        document.title = config.title;
-        defaultTitle = config.title.split(' ')[0]; // Set default title
-        titleElement.textContent = defaultTitle;
-        
-        config.apps.forEach((app, i) => {
-            iconGrid.appendChild(createIcon(app, i));
-        });
-          // Setup keyboard navigation
-        icons = Array.from(document.querySelectorAll('.icon-link'));
-        if (icons.length > 0) {
-            focusIcon(0); // Focus first icon by default
-        }
-        
-        document.addEventListener('keydown', handleKeyboard);
-        
-        // Setup search
-        setupSearch();
-        
-        updateClock();
-        setInterval(updateClock, 1000);
-    }    // Help Overlay
+    // Help Overlay
     const helpOverlay = document.getElementById('help-overlay');
     let isHelpActive = false;
 
@@ -480,5 +455,199 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    init();
+    // Settings Panel
+    const settingsOverlay = document.getElementById('settings-overlay');
+    const settingsBtn = document.getElementById('settings-btn');
+    const closeSettings = document.getElementById('close-settings');
+    const exportBtn = document.getElementById('export-config');
+    const importBtn = document.getElementById('import-config');
+    const importFile = document.getElementById('import-file');
+    const includeIconsCheckbox = document.getElementById('include-icons');
+    const totalAppsEl = document.getElementById('total-apps');
+    const lastModifiedEl = document.getElementById('last-modified');
+
+    let currentConfig = null;
+
+    function showToast(message, duration = 3000) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, duration);
+    }
+
+    function openSettings() {
+        settingsOverlay.classList.add('active');
+        updateSettingsInfo();
+    }
+
+    function closeSettingsPanel() {
+        settingsOverlay.classList.remove('active');
+    }
+
+    function updateSettingsInfo() {
+        if (currentConfig) {
+            totalAppsEl.textContent = currentConfig.apps.length;
+            lastModifiedEl.textContent = new Date().toLocaleDateString();
+        }
+    }
+
+    // Convert image to base64
+    async function imageToBase64(imageUrl) {
+        try {
+            const response = await fetch(imageUrl);
+            const blob = await response.blob();
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            });
+        } catch (error) {
+            console.warn(`Failed to convert image ${imageUrl} to base64:`, error);
+            return imageUrl; // Fallback to original URL
+        }
+    }
+
+    // Export Configuration
+    async function exportConfiguration() {
+        if (!currentConfig) return;
+
+        const includeIcons = includeIconsCheckbox.checked;
+        const exportData = JSON.parse(JSON.stringify(currentConfig)); // Deep clone
+
+        if (includeIcons) {
+            // Show loading state
+            exportBtn.disabled = true;
+            exportBtn.querySelector('span').textContent = '⏳ Converting icons...';
+
+            // Convert all icons to base64
+            for (let i = 0; i < exportData.apps.length; i++) {
+                const app = exportData.apps[i];
+                if (app.icon && !app.icon.startsWith('data:')) {
+                    exportData.apps[i].icon = await imageToBase64(app.icon);
+                }
+            }
+
+            // Convert wallpaper too
+            if (exportData.wallpaper && !exportData.wallpaper.startsWith('data:')) {
+                exportData.wallpaper = await imageToBase64(exportData.wallpaper);
+            }
+
+            exportBtn.disabled = false;
+            exportBtn.querySelector('span').textContent = '💾 Export Configuration';
+        }
+
+        // Add metadata
+        exportData._exported = {
+            date: new Date().toISOString(),
+            version: '1.0',
+            includesBase64Icons: includeIcons
+        };
+
+        // Download as JSON
+        const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `media-launcher-config-${Date.now()}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        showToast('✅ Configuration exported successfully!');
+        closeSettingsPanel();
+    }
+
+    // Import Configuration
+    async function importConfiguration(file) {
+        try {
+            const text = await file.text();
+            const importedConfig = JSON.parse(text);
+
+            // Validate config
+            if (!importedConfig.apps || !Array.isArray(importedConfig.apps)) {
+                throw new Error('Invalid configuration file');
+            }
+
+            // Save to localStorage
+            localStorage.setItem('mediaLauncherConfig', JSON.stringify(importedConfig));
+
+            showToast('✅ Configuration imported! Reloading...', 2000);
+            
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
+
+        } catch (error) {
+            console.error('Import failed:', error);
+            showToast('❌ Import failed! Invalid configuration file.', 4000);
+        }
+    }
+
+    // Event listeners
+    settingsBtn.addEventListener('click', openSettings);
+    closeSettings.addEventListener('click', closeSettingsPanel);
+    settingsOverlay.addEventListener('click', (e) => {
+        if (e.target === settingsOverlay) {
+            closeSettingsPanel();
+        }
+    });
+
+    exportBtn.addEventListener('click', exportConfiguration);
+    importBtn.addEventListener('click', () => importFile.click());
+    importFile.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            importConfiguration(file);
+        }
+    });
+
+    // Close settings with ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && settingsOverlay.classList.contains('active')) {
+            closeSettingsPanel();
+        }
+    });
+
+    // Modified init to store config
+    async function initWithConfig() {
+        // Try to load from localStorage first
+        const savedConfig = localStorage.getItem('mediaLauncherConfig');
+        
+        if (savedConfig) {
+            currentConfig = JSON.parse(savedConfig);
+        } else {
+            currentConfig = await loadConfig();
+            // Save initial config to localStorage
+            localStorage.setItem('mediaLauncherConfig', JSON.stringify(currentConfig));
+        }
+
+        // Continue with original init logic
+        setWallpaper(currentConfig.wallpaper);
+        
+        document.title = currentConfig.title;
+        defaultTitle = currentConfig.title.split(' ')[0];
+        titleElement.textContent = defaultTitle;
+        
+        currentConfig.apps.forEach((app, i) => {
+            iconGrid.appendChild(createIcon(app, i));
+        });
+          
+        icons = Array.from(document.querySelectorAll('.icon-link'));
+        if (icons.length > 0) {
+            focusIcon(0);
+        }
+        
+        document.addEventListener('keydown', handleKeyboard);
+        setupSearch();
+        updateClock();
+        setInterval(updateClock, 1000);
+        updateSettingsInfo();
+    }
+
+    initWithConfig();
 });
