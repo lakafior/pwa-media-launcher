@@ -753,6 +753,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 searchHint.textContent = '↵ Open URL';
             } else if (query.startsWith('?') || query.startsWith('g ')) {
                 searchHint.textContent = '↵ Google Search';
+            } else if (query.startsWith('y ')) {
+                searchHint.textContent = '🎥 YouTube Search';
+            } else if (query.startsWith('i ')) {
+                searchHint.textContent = '🎬 IMDb Search';
             } else {
                 // Count matching apps
                 const matches = currentConfig.apps.filter(app => 
@@ -806,6 +810,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (query.startsWith('?') || query.startsWith('g ')) {
             const searchQuery = query.startsWith('?') ? query.slice(1) : query.slice(2);
             window.open(`https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`, '_blank');
+            quickSearchInput.value = '';
+            searchHint.textContent = '';
+            quickSearchInput.blur();
+            return;
+        }
+        
+        // YouTube search prefix
+        if (query.startsWith('y ')) {
+            const searchQuery = query.slice(2);
+            window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery)}`, '_blank');
+            quickSearchInput.value = '';
+            searchHint.textContent = '';
+            quickSearchInput.blur();
+            return;
+        }
+        
+        // IMDb search prefix
+        if (query.startsWith('i ')) {
+            const searchQuery = query.slice(2);
+            window.open(`https://www.imdb.com/find?q=${encodeURIComponent(searchQuery)}`, '_blank');
             quickSearchInput.value = '';
             searchHint.textContent = '';
             quickSearchInput.blur();
