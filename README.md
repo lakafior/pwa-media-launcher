@@ -93,6 +93,8 @@ Search directly in your apps from the header bar:
 
 ### Export/Import
 
+<img width="608" height="700" alt="image" src="https://github.com/user-attachments/assets/bef38ac2-c516-4d77-96d6-a8f5dcdbd2d5" />
+
 **Export:**
 1. ⚙️ Settings → 💾 Export Configuration
 2. Downloads JSON with icons as Base64
