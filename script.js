@@ -744,46 +744,89 @@ document.addEventListener('DOMContentLoaded', async () => {
     function setupQuickSearch() {
         const quickSearchInput = document.getElementById('quick-search');
         const searchHint = document.getElementById('search-hint');
+        const searchResults = document.getElementById('quick-search-results');
         
         if (!quickSearchInput) return;
         
-        // Update hint based on input
+        let selectedResultIndex = -1;
+        let currentResults = [];
+        
+        // Get all apps with search capability
+        const searchableApps = currentConfig.apps.filter(app => app.searchUrl && app.searchKey);
+        
+        // Build search key map for quick lookup
+        const searchKeyMap = {};
+        searchableApps.forEach(app => {
+            searchKeyMap[app.searchKey] = app;
+        });
+        
+        // Update hint and results based on input
         quickSearchInput.addEventListener('input', (e) => {
             const query = e.target.value.trim();
+            selectedResultIndex = -1;
             
             if (!query) {
                 searchHint.textContent = '';
+                searchResults.classList.remove('active');
+                searchResults.innerHTML = '';
+                currentResults = [];
                 return;
             }
             
-            // Check if it's a URL
-            const isURL = /^(https?:\/\/|www\.|[a-z0-9]+\.[a-z]{2,})/i.test(query);
+            // Check if query starts with a search key
+            const words = query.split(' ');
+            const potentialKey = words[0].toLowerCase();
             
-            if (isURL) {
-                searchHint.textContent = '↵ Open URL';
-            } else if (query.startsWith('?') || query.startsWith('g ')) {
-                searchHint.textContent = '↵ Google Search';
-            } else if (query.startsWith('y ')) {
-                searchHint.textContent = '🎥 YouTube Search';
-            } else if (query.startsWith('i ')) {
-                searchHint.textContent = '🎬 IMDb Search';
+            if (words.length > 1 && searchKeyMap[potentialKey]) {
+                // Direct search with key (e.g., "y inception")
+                const app = searchKeyMap[potentialKey];
+                searchHint.textContent = `↵ Search in ${app.name}`;
+                searchResults.classList.remove('active');
+                searchResults.innerHTML = '';
+                currentResults = [];
             } else {
-                // Count matching apps
-                const matches = currentConfig.apps.filter(app => 
-                    app.name.toLowerCase().includes(query.toLowerCase())
-                );
-                
-                if (matches.length > 0) {
-                    searchHint.textContent = `${matches.length} app${matches.length > 1 ? 's' : ''}`;
-                } else {
-                    searchHint.textContent = '↵ Search web';
-                }
+                // Show all searchable apps
+                searchHint.textContent = `${searchableApps.length} apps`;
+                currentResults = searchableApps;
+                renderSearchResults(searchableApps, query);
+                searchResults.classList.add('active');
             }
         });
         
-        // Handle Enter key
+        function renderSearchResults(apps, query) {
+            searchResults.innerHTML = apps.map((app, index) => `
+                <div class="quick-search-result-item" data-index="${index}">
+                    <img src="${app.icon}" alt="${app.name}">
+                    <span class="result-name">${app.name}</span>
+                    <span class="result-key">${app.searchKey}</span>
+                </div>
+            `).join('');
+            
+            // Add click handlers
+            searchResults.querySelectorAll('.quick-search-result-item').forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    performSearch(apps[index], query);
+                });
+            });
+        }
+        
+        // Handle keyboard navigation in results
         quickSearchInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                e.stopPropagation();
+                if (currentResults.length > 0) {
+                    selectedResultIndex = Math.min(selectedResultIndex + 1, currentResults.length - 1);
+                    updateSelectedResult();
+                }
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                e.stopPropagation();
+                if (currentResults.length > 0) {
+                    selectedResultIndex = Math.max(selectedResultIndex - 1, -1);
+                    updateSelectedResult();
+                }
+            } else if (e.key === 'Enter') {
                 e.preventDefault();
                 e.stopPropagation();
                 handleQuickSearch(quickSearchInput.value.trim());
@@ -792,7 +835,43 @@ document.addEventListener('DOMContentLoaded', async () => {
                 e.stopPropagation();
                 quickSearchInput.value = '';
                 searchHint.textContent = '';
+                searchResults.classList.remove('active');
+                searchResults.innerHTML = '';
+                currentResults = [];
+                selectedResultIndex = -1;
                 quickSearchInput.blur();
+            }
+        });
+        
+        function updateSelectedResult() {
+            const items = searchResults.querySelectorAll('.quick-search-result-item');
+            items.forEach((item, index) => {
+                item.classList.toggle('selected', index === selectedResultIndex);
+            });
+            
+            // Scroll selected into view
+            if (selectedResultIndex >= 0 && items[selectedResultIndex]) {
+                items[selectedResultIndex].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }
+        }
+        
+        function performSearch(app, query) {
+            const searchUrl = app.searchUrl.replace('%s', encodeURIComponent(query));
+            window.open(searchUrl, '_blank');
+            quickSearchInput.value = '';
+            searchHint.textContent = '';
+            searchResults.classList.remove('active');
+            searchResults.innerHTML = '';
+            currentResults = [];
+            selectedResultIndex = -1;
+            quickSearchInput.blur();
+        }
+        
+        // Close results when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!quickSearchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                searchResults.classList.remove('active');
+                selectedResultIndex = -1;
             }
         });
     }
@@ -800,77 +879,47 @@ document.addEventListener('DOMContentLoaded', async () => {
     function handleQuickSearch(query) {
         const quickSearchInput = document.getElementById('quick-search');
         const searchHint = document.getElementById('search-hint');
+        const searchResults = document.getElementById('quick-search-results');
         
         if (!query) return;
         
-        // Check if it's a URL
-        const isURL = /^(https?:\/\/|www\.|[a-z0-9]+\.[a-z]{2,})/i.test(query);
+        const searchableApps = currentConfig.apps.filter(app => app.searchUrl && app.searchKey);
+        const searchKeyMap = {};
+        searchableApps.forEach(app => {
+            searchKeyMap[app.searchKey] = app;
+        });
         
-        if (isURL) {
-            // Open URL in new tab
-            let url = query;
-            if (!url.startsWith('http')) {
-                url = 'https://' + url;
-            }
-            window.open(url, '_blank');
-            quickSearchInput.value = '';
-            searchHint.textContent = '';
-            quickSearchInput.blur();
-            return;
-        }
+        // Check if query starts with a search key
+        const words = query.split(' ');
+        const potentialKey = words[0].toLowerCase();
         
-        // Google search prefix
-        if (query.startsWith('?') || query.startsWith('g ')) {
-            const searchQuery = query.startsWith('?') ? query.slice(1) : query.slice(2);
-            window.open(`https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`, '_blank');
-            quickSearchInput.value = '';
-            searchHint.textContent = '';
-            quickSearchInput.blur();
-            return;
-        }
-        
-        // YouTube search prefix
-        if (query.startsWith('y ')) {
-            const searchQuery = query.slice(2);
-            window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery)}`, '_blank');
-            quickSearchInput.value = '';
-            searchHint.textContent = '';
-            quickSearchInput.blur();
-            return;
-        }
-        
-        // IMDb search prefix
-        if (query.startsWith('i ')) {
-            const searchQuery = query.slice(2);
-            window.open(`https://www.imdb.com/find?q=${encodeURIComponent(searchQuery)}`, '_blank');
-            quickSearchInput.value = '';
-            searchHint.textContent = '';
-            quickSearchInput.blur();
-            return;
-        }
-        
-        // Search in apps
-        const matches = currentConfig.apps.filter(app => 
-            app.name.toLowerCase().includes(query.toLowerCase())
-        );
-        
-        if (matches.length > 0) {
-            // Find the icon and trigger it
-            const appIndex = currentConfig.apps.findIndex(app => app.name === matches[0].name);
-            if (appIndex !== -1 && icons[appIndex]) {
-                focusIcon(appIndex);
-                icons[appIndex].click();
-            }
-            quickSearchInput.value = '';
-            searchHint.textContent = '';
-            quickSearchInput.blur();
+        if (words.length > 1 && searchKeyMap[potentialKey]) {
+            // Direct search with key (e.g., "y inception")
+            const app = searchKeyMap[potentialKey];
+            const searchQuery = words.slice(1).join(' ');
+            const searchUrl = app.searchUrl.replace('%s', encodeURIComponent(searchQuery));
+            window.open(searchUrl, '_blank');
         } else {
-            // No matches - Google search
-            window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
-            quickSearchInput.value = '';
-            searchHint.textContent = '';
-            quickSearchInput.blur();
+            // Use selected result or first app
+            const selectedIndex = Array.from(searchResults.querySelectorAll('.quick-search-result-item'))
+                .findIndex(item => item.classList.contains('selected'));
+            
+            if (selectedIndex >= 0 && searchableApps[selectedIndex]) {
+                const searchUrl = searchableApps[selectedIndex].searchUrl.replace('%s', encodeURIComponent(query));
+                window.open(searchUrl, '_blank');
+            } else if (searchableApps.length > 0) {
+                // Default to first searchable app
+                const searchUrl = searchableApps[0].searchUrl.replace('%s', encodeURIComponent(query));
+                window.open(searchUrl, '_blank');
+            }
         }
+        
+        // Clean up
+        quickSearchInput.value = '';
+        searchHint.textContent = '';
+        searchResults.classList.remove('active');
+        searchResults.innerHTML = '';
+        quickSearchInput.blur();
     }
 
     initWithConfig();

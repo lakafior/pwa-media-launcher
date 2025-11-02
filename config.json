@@ -6,19 +6,25 @@
       "name": "YouTube",
       "url": "https://www.youtube.com",
       "icon": "images/youtube.png",
-      "color": "#FF0000"
+      "color": "#FF0000",
+      "searchUrl": "https://www.youtube.com/results?search_query=%s",
+      "searchKey": "y"
     },
     {
       "name": "Twitch",
       "url": "https://www.twitch.tv",
       "icon": "images/twitch.png",
-      "color": "#9146FF"
+      "color": "#9146FF",
+      "searchUrl": "https://twitch.tv/search?term=%s",
+      "searchKey": "t"
     },
     {
       "name": "Kick",
       "url": "https://kick.com",
       "icon": "images/kick.png",
-      "color": "#53FC18"
+      "color": "#53FC18",
+      "searchUrl": "https://kick.com/search?query=%s",
+      "searchKey": "k"
     },
     {
       "name": "Infuse",
@@ -30,7 +36,9 @@
       "name": "Omni",
       "url": "omni://",
       "icon": "images/omni.png",
-      "color": "#DC08A4"
+      "color": "#DC08A4",
+      "searchUrl": "omni://search?query=%s",
+      "searchKey": "o"
     },
     {
       "name": "UHF IPTV",
@@ -72,19 +80,25 @@
       "name": "Plex",
       "url": "http://127.0.0.1:32400/web/index.html#!/",
       "icon": "images/plex.png",
-      "color": "#E5A00D"
+      "color": "#E5A00D",
+      "searchUrl": "http://127.0.0.1:32400/web/index.html#!/search?pivot=top&query=%s",
+      "searchKey": "p"
     },
     {
       "name": "Stremio",
       "url": "stremio://",
       "icon": "images/stremio.svg",
-      "color": "#113CCF"
+      "color": "#113CCF",
+      "searchUrl": "stremio://search?query=%s",
+      "searchKey": "s"
     },
     {
       "name": "DMM",
       "url": "https://debridmediamanager.com",
       "icon": "images/dmm.png",
-      "color": "#01a0af"
+      "color": "#01a0af",
+      "searchUrl": "https://debridmediamanager.com/search?query=%s",
+      "searchKey": "d"
     },
     {
       "name": "IIna",
