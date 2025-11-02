@@ -33,10 +33,10 @@
       "color": "#113CCF"
     },
     {
-      "name": "Prime Video",
-      "url": "https://www.primevideo.com",
-      "icon": "images/prime.png",
-      "color": "#00A8E1"
+      "name": "UHF IPTV",
+      "url": "uhf://",
+      "icon": "images/uhf.png",
+      "color": "#EC5610"
     },
     {
       "name": "Audiobookshelf",
@@ -64,5 +64,6 @@
     }
   ]
 }
+
 
 
