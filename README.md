@@ -10,8 +10,8 @@
 
 **Navigation:**
 - 🎨 Apple TV-style UI with smooth animations
-- ⌨️ Full keyboard navigation (arrows, 1-9/0 shortcuts)
-- 🔍 **Quick Search** - search directly in apps (YouTube, Twitch, Plex, etc.)
+- ⌨️ Full keyboard navigation (`arrows, 1-9/0 shortcuts`)
+- 🔍 **Quick Search** (`.`) - search directly in apps (YouTube, Twitch, Plex, etc.)
 - 📍 Spotlight search (`/`) - find and launch apps
 - 🖱️ Mouse + keyboard harmony
 
