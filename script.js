@@ -133,6 +133,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             icons[index].classList.add('keyboard-focused');
             currentFocusIndex = index;
             
+            // Scroll icon into view
+            scrollIconIntoView(icons[index]);
+            
             // Update title with app name
             const appName = icons[index].querySelector('.icon-name').textContent;
             titleElement.textContent = appName;
@@ -153,33 +156,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         const gridCols = gridStyle.gridTemplateColumns.split(' ').length;
         return gridCols;
     }
-    
-    // Adjust grid layout to fit all icons on desktop without scrolling
-    function adjustGridForViewport() {
-        if (window.innerWidth >= 1024 && icons.length > 0) {
-            const containerHeight = iconGrid.clientHeight;
-            const containerWidth = iconGrid.clientWidth;
-            
-            // Calculate optimal grid to fit all items
-            const itemCount = icons.length;
-            const aspectRatio = containerWidth / containerHeight;
-            
-            // Estimate optimal columns based on aspect ratio and item count
-            let cols = Math.ceil(Math.sqrt(itemCount * aspectRatio));
-            let rows = Math.ceil(itemCount / cols);
-            
-            // Ensure it fits in viewport
-            while (rows > 4 && cols < 8) {
-                cols++;
-                rows = Math.ceil(itemCount / cols);
-            }
-            
-            // Apply dynamic column sizing with better minimum sizes
-            const minSize = Math.max(180, Math.floor(containerWidth / cols) - 50);
-            iconGrid.style.gridTemplateColumns = `repeat(auto-fit, minmax(${minSize}px, 1fr))`;
-        } else if (window.innerWidth < 1024) {
-            // Reset for smaller screens
-            iconGrid.style.gridTemplateColumns = '';
+
+    // Smooth scroll focused icon into view
+    function scrollIconIntoView(icon) {
+        if (icon) {
+            icon.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+                inline: 'center'
+            });
         }
     }
 
@@ -254,9 +239,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (icons.length > 0) {
             focusIcon(0); // Focus first icon by default
         }
-        
-        // Adjust grid layout for desktop
-        adjustGridForViewport();
         
         document.addEventListener('keydown', handleKeyboard);
         
@@ -482,16 +464,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             updateSelection();
         }
     }
-    
-    // Handle window resize
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            adjustGridForViewport();
-        }, 250);
-    });
-
 
     init();
 });
