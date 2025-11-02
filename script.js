@@ -174,9 +174,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 rows = Math.ceil(itemCount / cols);
             }
             
-            // Apply dynamic column sizing
-            const minSize = Math.max(140, Math.floor(containerWidth / cols) - 40);
+            // Apply dynamic column sizing with better minimum sizes
+            const minSize = Math.max(180, Math.floor(containerWidth / cols) - 50);
             iconGrid.style.gridTemplateColumns = `repeat(auto-fit, minmax(${minSize}px, 1fr))`;
+        } else if (window.innerWidth < 1024) {
+            // Reset for smaller screens
+            iconGrid.style.gridTemplateColumns = '';
         }
     }
 
