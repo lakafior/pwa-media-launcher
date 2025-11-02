@@ -61,9 +61,34 @@
       "url": "podcasts://",
       "icon": "images/ap.svg",
       "color": "#D56DFB"
+    },
+    {
+      "name": "Plex",
+      "url": "plex://",
+      "icon": "images/plex.png",
+      "color": "#E5A00D"
+    },
+    {
+      "name": "Stremio",
+      "url": "stremio://",
+      "icon": "images/stremio.svg",
+      "color": "#113CCF"
+    },
+    {
+      "name": "DMM",
+      "url": "https://debridmediamanager.com",
+      "icon": "images/dmm.png",
+      "color": "#01a0af"
+    },
+    {
+      "name": "IIna",
+      "url": "iina://",
+      "icon": "images/iina.png",
+      "color": "#00d6fa"
     }
   ]
 }
+
 
 
 
