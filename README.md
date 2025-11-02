@@ -43,6 +43,8 @@ npx serve
 
 ## 🔍 Quick Search
 
+<img width="615" height="480" alt="image" src="https://github.com/user-attachments/assets/550ae979-b82b-445f-b7cc-b36f1e2fb7e5" />
+
 Search directly in your apps from the header bar:
 
 **With prefix:**
