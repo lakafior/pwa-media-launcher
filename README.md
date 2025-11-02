@@ -1,6 +1,6 @@
 # 📺 Media Launcher
 
-> Apple TV-inspired PWA media launcher with direct app search. Better than Apple TV.
+> Apple TV-inspired PWA media launcher with direct app search. 
 
 ![Status](https://img.shields.io/badge/Status-Ready-green) ![PWA](https://img.shields.io/badge/PWA-Enabled-blue) ![Platform](https://img.shields.io/badge/Platform-macOS-blue)
 
