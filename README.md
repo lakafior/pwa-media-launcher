@@ -4,7 +4,7 @@
 
 ![Status](https://img.shields.io/badge/Status-Ready-green) ![PWA](https://img.shields.io/badge/PWA-Enabled-blue) ![Platform](https://img.shields.io/badge/Platform-macOS-blue)
 
-<img width="1469" height="797" alt="image" src="https://github.com/user-attachments/assets/aefbb687-569d-4e40-919b-8ab7535f4b4f" />
+<img width="1467" height="789" alt="image" src="https://github.com/user-attachments/assets/80667e69-286d-4d99-a7c3-094b2dcc3670" />
 
 ## ✨ Features
 
