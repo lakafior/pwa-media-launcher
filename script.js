@@ -730,5 +730,112 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateSettingsInfo();
     }
 
+    // Quick Search Bar functionality
+    function setupQuickSearch() {
+        const quickSearchInput = document.getElementById('quick-search');
+        const searchHint = document.getElementById('search-hint');
+        
+        if (!quickSearchInput) return;
+        
+        // Update hint based on input
+        quickSearchInput.addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+            
+            if (!query) {
+                searchHint.textContent = '';
+                return;
+            }
+            
+            // Check if it's a URL
+            const isURL = /^(https?:\/\/|www\.|[a-z0-9]+\.[a-z]{2,})/i.test(query);
+            
+            if (isURL) {
+                searchHint.textContent = '↵ Open URL';
+            } else if (query.startsWith('?') || query.startsWith('g ')) {
+                searchHint.textContent = '↵ Google Search';
+            } else {
+                // Count matching apps
+                const matches = currentConfig.apps.filter(app => 
+                    app.name.toLowerCase().includes(query.toLowerCase())
+                );
+                
+                if (matches.length > 0) {
+                    searchHint.textContent = `${matches.length} app${matches.length > 1 ? 's' : ''}`;
+                } else {
+                    searchHint.textContent = '↵ Search web';
+                }
+            }
+        });
+        
+        // Handle Enter key
+        quickSearchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleQuickSearch(quickSearchInput.value.trim());
+            } else if (e.key === 'Escape') {
+                quickSearchInput.value = '';
+                searchHint.textContent = '';
+                quickSearchInput.blur();
+            }
+        });
+    }
+    
+    function handleQuickSearch(query) {
+        const quickSearchInput = document.getElementById('quick-search');
+        const searchHint = document.getElementById('search-hint');
+        
+        if (!query) return;
+        
+        // Check if it's a URL
+        const isURL = /^(https?:\/\/|www\.|[a-z0-9]+\.[a-z]{2,})/i.test(query);
+        
+        if (isURL) {
+            // Open URL in new tab
+            let url = query;
+            if (!url.startsWith('http')) {
+                url = 'https://' + url;
+            }
+            window.open(url, '_blank');
+            quickSearchInput.value = '';
+            searchHint.textContent = '';
+            quickSearchInput.blur();
+            return;
+        }
+        
+        // Google search prefix
+        if (query.startsWith('?') || query.startsWith('g ')) {
+            const searchQuery = query.startsWith('?') ? query.slice(1) : query.slice(2);
+            window.open(`https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`, '_blank');
+            quickSearchInput.value = '';
+            searchHint.textContent = '';
+            quickSearchInput.blur();
+            return;
+        }
+        
+        // Search in apps
+        const matches = currentConfig.apps.filter(app => 
+            app.name.toLowerCase().includes(query.toLowerCase())
+        );
+        
+        if (matches.length > 0) {
+            // Find the icon and trigger it
+            const appIndex = currentConfig.apps.findIndex(app => app.name === matches[0].name);
+            if (appIndex !== -1 && icons[appIndex]) {
+                focusIcon(appIndex);
+                icons[appIndex].click();
+            }
+            quickSearchInput.value = '';
+            searchHint.textContent = '';
+            quickSearchInput.blur();
+        } else {
+            // No matches - Google search
+            window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+            quickSearchInput.value = '';
+            searchHint.textContent = '';
+            quickSearchInput.blur();
+        }
+    }
+
     initWithConfig();
+    setupQuickSearch();
 });
