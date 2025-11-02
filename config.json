@@ -63,6 +63,12 @@
       "color": "#D56DFB"
     },
     {
+      "name": "Prime Video",
+      "url": "https://www.primevideo.com",
+      "icon": "images/prime.png",
+      "color": "#00A8E1"
+    },
+    {
       "name": "Plex",
       "url": "plex://",
       "icon": "images/plex.png",
@@ -88,6 +94,7 @@
     }
   ]
 }
+
 
 
 
