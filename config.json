@@ -21,16 +21,16 @@
       "color": "#53FC18"
     },
     {
-      "name": "Plex",
-      "url": "http://127.0.0.1:32400/web/index.html#!/",
-      "icon": "images/plex.png",
-      "color": "#E5A00D"
+      "name": "Infuse",
+      "url": "infuse://",
+      "icon": "images/infuse.png",
+      "color": "#FF6701"
     },
     {
-      "name": "Stremio",
-      "url": "stremio://",
-      "icon": "images/stremio.svg",
-      "color": "#113CCF"
+      "name": "Omni",
+      "url": "omni://",
+      "icon": "images/omni.png",
+      "color": "#DC08A4"
     },
     {
       "name": "UHF IPTV",
@@ -64,6 +64,7 @@
     }
   ]
 }
+
 
 
 
