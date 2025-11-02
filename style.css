@@ -597,7 +597,7 @@ header {
 }
 
 .icon-link:nth-child(-n+10)::before {
-    opacity: 0.6;
+    opacity: 0;
 }
 
 .icon-link:nth-child(1)::before { content: '1'; }
@@ -613,7 +613,7 @@ header {
 
 .icon-link:hover::before,
 .icon-link.keyboard-focused::before {
-    opacity: 1;
+    opacity: 0.6;
 }
 
 /* Search key indicator (bottom-right, inside card) */
