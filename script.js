@@ -38,11 +38,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         link.dataset.url = app.url;
         link.dataset.color = app.color;
         link.style.animationDelay = `${index * 0.05}s`;
-        
-        // Add search key if available
-        if (app.searchKey) {
-            link.dataset.searchKey = app.searchKey;
-        }
 
         const card = document.createElement('div');
         card.className = 'icon-card';
@@ -66,6 +61,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             // Wide/landscape images keep default padding
         };
+        
+        // Add search key badge if available
+        if (app.searchKey) {
+            const searchKeyBadge = document.createElement('div');
+            searchKeyBadge.className = 'search-key-badge';
+            searchKeyBadge.textContent = app.searchKey.toUpperCase();
+            card.appendChild(searchKeyBadge);
+        }
         
         const name = document.createElement('div');
         name.className = 'icon-name';

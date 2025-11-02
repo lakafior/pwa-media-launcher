@@ -167,6 +167,7 @@ header {
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 14px;
     transition: all 0.3s ease;
+    z-index: 100;
 }
 
 .quick-search-bar:focus-within {
@@ -615,9 +616,8 @@ header {
     opacity: 1;
 }
 
-/* Search key indicator (bottom-right) */
-.icon-link[data-search-key]::after {
-    content: attr(data-search-key);
+/* Search key indicator (bottom-right, inside card) */
+.search-key-badge {
     position: absolute;
     bottom: 8px;
     right: 8px;
@@ -633,12 +633,11 @@ header {
     transition: opacity 0.3s ease;
     z-index: 10;
     pointer-events: none;
-    text-transform: uppercase;
 }
 
-.icon-link[data-search-key]:hover::after,
-.icon-link[data-search-key].keyboard-focused::after {
-    opacity: 1;
+.icon-link:hover .search-key-badge,
+.icon-link.keyboard-focused .search-key-badge {
+    opacity: 0.6;
 }
 
 .icon-card {
