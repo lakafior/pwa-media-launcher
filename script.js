@@ -47,6 +47,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         img.src = app.icon;
         img.alt = app.name;
         
+        // Detect image aspect ratio and adjust padding accordingly
+        img.onload = function() {
+            const aspectRatio = this.naturalWidth / this.naturalHeight;
+            
+            // If image is square or taller (ratio close to 1:1 or taller)
+            if (aspectRatio >= 0.8 && aspectRatio <= 1.2) {
+                card.classList.add('app-icon');
+            } 
+            // If image is portrait or very square-ish
+            else if (aspectRatio > 0.6 && aspectRatio < 0.8) {
+                card.classList.add('square-icon');
+            }
+            // Wide/landscape images keep default padding
+        };
+        
         const name = document.createElement('div');
         name.className = 'icon-name';
         name.textContent = app.name;

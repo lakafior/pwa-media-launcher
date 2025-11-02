@@ -484,6 +484,16 @@ header {
     transition: all var(--transition-speed) ease;
 }
 
+/* Square/tall icons (like app icons) - less padding for bigger display */
+.icon-card.square-icon img {
+    padding: 18px;
+}
+
+/* Very square icons (1:1 ratio) - minimal padding, fills more space */
+.icon-card.app-icon img {
+    padding: 12px;
+}
+
 .icon-name {
     margin-top: 16px;
     font-size: 20px;
@@ -714,6 +724,15 @@ header {
     
     .icon-card img {
         padding: 20px;
+    }
+    
+    /* Adjust padding for square icons on mobile */
+    .icon-card.square-icon img {
+        padding: 12px;
+    }
+    
+    .icon-card.app-icon img {
+        padding: 8px;
     }
 }
 
