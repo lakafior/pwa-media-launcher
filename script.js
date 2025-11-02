@@ -735,6 +735,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         document.addEventListener('keydown', handleKeyboard);
         setupSearch();
+        setupQuickSearch();  // Setup Quick Search after config is loaded
         updateClock();
         setInterval(updateClock, 1000);
         updateSettingsInfo();
@@ -923,5 +924,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     initWithConfig();
-    setupQuickSearch();
 });
