@@ -336,6 +336,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             const quickSearchInput = document.getElementById('quick-search');
             const isQuickSearchActive = quickSearchInput && document.activeElement === quickSearchInput;
             
+            // Activate Quick Search with . (dot)
+            if (e.key === '.' && !isSearchActive && !isHelpActive && !isQuickSearchActive) {
+                e.preventDefault();
+                quickSearchInput.focus();
+                return;
+            }
+            
             // Toggle help with ?
             if (e.key === '?' && !isSearchActive && !isQuickSearchActive) {
                 e.preventDefault();
