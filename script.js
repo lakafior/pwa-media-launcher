@@ -153,6 +153,32 @@ document.addEventListener('DOMContentLoaded', async () => {
         const gridCols = gridStyle.gridTemplateColumns.split(' ').length;
         return gridCols;
     }
+    
+    // Adjust grid layout to fit all icons on desktop without scrolling
+    function adjustGridForViewport() {
+        if (window.innerWidth >= 1024 && icons.length > 0) {
+            const containerHeight = iconGrid.clientHeight;
+            const containerWidth = iconGrid.clientWidth;
+            
+            // Calculate optimal grid to fit all items
+            const itemCount = icons.length;
+            const aspectRatio = containerWidth / containerHeight;
+            
+            // Estimate optimal columns based on aspect ratio and item count
+            let cols = Math.ceil(Math.sqrt(itemCount * aspectRatio));
+            let rows = Math.ceil(itemCount / cols);
+            
+            // Ensure it fits in viewport
+            while (rows > 4 && cols < 8) {
+                cols++;
+                rows = Math.ceil(itemCount / cols);
+            }
+            
+            // Apply dynamic column sizing
+            const minSize = Math.max(140, Math.floor(containerWidth / cols) - 40);
+            iconGrid.style.gridTemplateColumns = `repeat(auto-fit, minmax(${minSize}px, 1fr))`;
+        }
+    }
 
     function handleKeyboard(e) {
         if (icons.length === 0) return;
@@ -225,6 +251,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (icons.length > 0) {
             focusIcon(0); // Focus first icon by default
         }
+        
+        // Adjust grid layout for desktop
+        adjustGridForViewport();
         
         document.addEventListener('keydown', handleKeyboard);
         
@@ -450,6 +479,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             updateSelection();
         }
     }
+    
+    // Handle window resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            adjustGridForViewport();
+        }, 250);
+    });
+
 
     init();
 });
