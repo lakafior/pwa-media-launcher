@@ -110,6 +110,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 linear-gradient(135deg, ${darkest}18 0%, ${dark}14 50%, ${color}10 100%)`;
     }    // Hover handlers
     function handleIconHover(el) {
+        // Ignore mouse hover if user is actively using keyboard
+        if (isUsingKeyboard) {
+            return;
+        }
+        
         const gradient = generateGradient(el.dataset.color);
         body.style.setProperty('--hover-gradient', gradient);
         body.classList.add('has-background');
@@ -121,11 +126,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Clear keyboard focus when hovering with mouse
         icons.forEach(icon => icon.classList.remove('keyboard-focused'));
     }    function handleIconLeave() {
+        // Don't clear background if using keyboard
+        if (isUsingKeyboard) {
+            return;
+        }
+        
         setTimeout(() => {
-            if (!document.querySelector('.icon-link:hover')) {
+            if (!document.querySelector('.icon-link:hover') && !isUsingKeyboard) {
                 body.classList.remove('has-background');
-                // Clear keyboard focus when mouse leaves and there's no hover
-                icons.forEach(icon => icon.classList.remove('keyboard-focused'));
                 // Restore default title
                 titleElement.textContent = defaultTitle;
             }
@@ -139,7 +147,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }    // Keyboard Navigation
     let currentFocusIndex = 0;
-    let icons = [];    function focusIcon(index) {
+    let icons = [];
+    let isUsingKeyboard = false; // Track input method
+    let keyboardModeTimeout = null;    function focusIcon(index) {
         // Remove focus from all icons
         icons.forEach(icon => icon.classList.remove('keyboard-focused'));
         
@@ -183,11 +193,56 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // Enable keyboard mode (blocks mouse hover)
+    function enableKeyboardMode() {
+        isUsingKeyboard = true;
+        body.classList.add('keyboard-mode');
+        
+        // Clear any existing timeout
+        if (keyboardModeTimeout) {
+            clearTimeout(keyboardModeTimeout);
+        }
+        
+        // Auto-disable keyboard mode after 2 seconds of inactivity
+        keyboardModeTimeout = setTimeout(() => {
+            isUsingKeyboard = false;
+            body.classList.remove('keyboard-mode');
+        }, 2000);
+    }
+
+    // Disable keyboard mode on mouse movement
+    let mouseMoveTimeout;
+    document.addEventListener('mousemove', () => {
+        // Debounce mouse movement
+        clearTimeout(mouseMoveTimeout);
+        mouseMoveTimeout = setTimeout(() => {
+            // Only disable keyboard mode if user is actually moving mouse
+            // (not just incidental movement during scrolling)
+            if (!isUsingKeyboard) return;
+            
+            // Check if mouse is over an icon
+            const hoveredIcon = document.querySelector('.icon-link:hover');
+            if (hoveredIcon) {
+                isUsingKeyboard = false;
+                body.classList.remove('keyboard-mode');
+                // Clear keyboard focus
+                icons.forEach(icon => icon.classList.remove('keyboard-focused'));
+            }
+        }, 100);
+    });
+
     function handleKeyboard(e) {
         if (icons.length === 0) return;
 
         const cols = getGridColumns();
         const maxIndex = icons.length - 1;
+        
+        // Activate keyboard mode on arrow key usage
+        const isNavigationKey = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key);
+        
+        if (isNavigationKey) {
+            enableKeyboardMode();
+        }
 
         switch(e.key) {
             case 'ArrowRight':

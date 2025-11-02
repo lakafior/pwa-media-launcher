@@ -1062,3 +1062,12 @@ header {
         max-width: none;
     }
 }
+
+/* Disable hover effects during keyboard navigation */
+body.keyboard-mode .icon-link {
+    pointer-events: none;
+}
+
+body.keyboard-mode .icon-link.keyboard-focused {
+    pointer-events: auto;
+}
