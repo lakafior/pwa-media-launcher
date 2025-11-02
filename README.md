@@ -117,7 +117,9 @@ Search directly in your apps from the header bar:
 | `Enter` / `Space` | Launch app |
 | `1`-`9`, `0` | Quick launch (first 10 apps) |
 | `/` or `Cmd+K` | Search apps (Spotlight) |
+| `.` | Quick Search in apps |
 | `?` | Help overlay |
+| `ESC` | Clear / Close |
 | `ESC` | Clear / Close |
 
 **Quick Search shortcuts:** Type search key + space + query (e.g., `y cats`)
