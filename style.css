@@ -1449,10 +1449,11 @@ header {
     cursor: pointer;
 }
 
-.btn-add {
+/* Editor Footer Buttons */
+.btn-footer {
     flex: 1;
-    background: rgba(52, 199, 89, 0.2);
-    border: 1px solid rgba(52, 199, 89, 0.4);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: var(--text-primary);
     padding: 14px 24px;
     border-radius: 12px;
@@ -1460,12 +1461,49 @@ header {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    text-align: center;
 }
 
-.btn-add:hover {
-    background: rgba(52, 199, 89, 0.3);
+.btn-footer:hover {
     transform: translateY(-2px);
+}
+
+.btn-footer.btn-add {
+    background: rgba(52, 199, 89, 0.2);
+    border: 1px solid rgba(52, 199, 89, 0.4);
+}
+
+.btn-footer.btn-add:hover {
+    background: rgba(52, 199, 89, 0.3);
     box-shadow: 0 8px 20px rgba(52, 199, 89, 0.3);
+}
+
+.btn-footer.btn-primary {
+    background: rgba(0, 122, 255, 0.2);
+    border: 1px solid rgba(0, 122, 255, 0.4);
+}
+
+.btn-footer.btn-primary:hover {
+    background: rgba(0, 122, 255, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 122, 255, 0.3);
+}
+
+.btn-footer.btn-coffee {
+    background: rgba(255, 204, 0, 0.15);
+    border: 1px solid rgba(255, 204, 0, 0.4);
+}
+
+.btn-footer.btn-coffee:hover {
+    background: rgba(255, 204, 0, 0.25);
+    box-shadow: 0 8px 20px rgba(255, 204, 0, 0.3);
+}
+
+.btn-footer:active {
+    transform: translateY(0);
 }
 
 /* Responsive Settings */
