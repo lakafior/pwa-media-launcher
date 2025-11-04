@@ -242,6 +242,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     function handleKeyboard(e) {
         if (icons.length === 0) return;
         
+        // Don't handle if any modal is open
+        if (isAnyModalOpen()) {
+            return;
+        }
+        
         // Don't handle keyboard navigation if Quick Search is focused
         const quickSearchInput = document.getElementById('quick-search');
         if (quickSearchInput && document.activeElement === quickSearchInput) {
@@ -329,9 +334,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     const searchResults = document.getElementById('search-results');
     let isSearchActive = false;
     let searchSelectedIndex = -1;
-    let filteredApps = [];    function setupSearch() {
+    let filteredApps = [];
+
+    // Helper function to check if modals are open
+    function isAnyModalOpen() {
+        const settingsOverlay = document.getElementById('settings-overlay');
+        const editorOverlay = document.getElementById('editor-overlay');
+        return settingsOverlay?.classList.contains('active') || editorOverlay?.classList.contains('active');
+    }
+
+    function setupSearch() {
         // Open search with / or Cmd+K
         document.addEventListener('keydown', (e) => {
+            // Don't handle if any modal is open
+            if (isAnyModalOpen()) {
+                return;
+            }
+            
             // Don't handle shortcuts if Quick Search is focused
             const quickSearchInput = document.getElementById('quick-search');
             const isQuickSearchActive = quickSearchInput && document.activeElement === quickSearchInput;
@@ -367,7 +386,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             
             // Number shortcuts (1-9, 0) when search is NOT active and Quick Search is NOT focused
-            if (!isSearchActive && !isHelpActive && !isQuickSearchActive) {
+            if (!isSearchActive && !isHelpActive && !isQuickSearchActive && !isAnyModalOpen()) {
                 if (e.key >= '1' && e.key <= '9') {
                     const index = parseInt(e.key) - 1;
                     if (icons[index]) {
