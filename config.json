@@ -48,7 +48,7 @@
     },
     {
       "name": "Audiobookshelf",
-      "url": "http://127.0.0.1:13378",
+      "url": "https://www.audiobookshelf.org",
       "icon": "images/abs.png",
       "color": "#ba9f2f"
     },
@@ -78,10 +78,10 @@
     },
     {
       "name": "Plex",
-      "url": "http://127.0.0.1:32400/web/index.html#!/",
+      "url": "https://app.plex.tv",
       "icon": "images/plex.png",
       "color": "#E5A00D",
-      "searchUrl": "http://127.0.0.1:32400/web/index.html#!/search?pivot=top&query=%s",
+      "searchUrl": "https://app.plex.tv/desktop/#!/search?pivot=top&query=%s",
       "searchKey": "p"
     },
     {
