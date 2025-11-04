@@ -126,7 +126,32 @@
             </div>
             
             <div class="editor-content" id="editor-content">
-                <!-- App cards will be rendered here -->
+                <!-- Global settings section -->
+                <div class="global-settings-section">
+                    <h3>🌐 Global Settings</h3>
+                    <div class="app-card">
+                        <div class="app-card-form">
+                            <div class="form-group">
+                                <label>App Title</label>
+                                <input type="text" id="global-title" placeholder="Media Launcher">
+                            </div>
+                            <div class="form-group">
+                                <label>Wallpaper</label>
+                                <div class="file-input-wrapper">
+                                    <label class="file-input-btn">
+                                        🖼️ Choose Wallpaper
+                                        <input type="file" accept="image/*" id="global-wallpaper-input">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="apps-section-title">📱 Apps</h3>
+                <div id="apps-list">
+                    <!-- App cards will be rendered here -->
+                </div>
             </div>
             
             <div class="editor-footer">

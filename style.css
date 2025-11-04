@@ -1272,6 +1272,32 @@ header {
     background: rgba(0, 0, 0, 0.2);
 }
 
+.global-settings-section {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.global-settings-section h3,
+.apps-section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+}
+
+.apps-section-title {
+    margin-top: 0;
+}
+
+#apps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 .app-card {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);

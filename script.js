@@ -772,11 +772,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function renderEditor() {
-        editorContent.innerHTML = '';
+        // Render global settings
+        const titleInput = document.getElementById('global-title');
+        if (titleInput && currentConfig) {
+            titleInput.value = currentConfig.title || 'Media Launcher';
+        }
+        
+        // Render apps list
+        const appsList = document.getElementById('apps-list');
+        if (!appsList) return;
+        
+        appsList.innerHTML = '';
         
         editingApps.forEach((app, index) => {
             const card = createAppCard(app, index);
-            editorContent.appendChild(card);
+            appsList.appendChild(card);
         });
     }
 
@@ -881,7 +891,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function saveConfiguration() {
         try {
-            // Update current config
+            // Update global settings
+            const titleInput = document.getElementById('global-title');
+            if (titleInput) {
+                currentConfig.title = titleInput.value || 'Media Launcher';
+            }
+            
+            // Update apps
             currentConfig.apps = editingApps;
             
             // Save to localStorage
@@ -909,6 +925,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     addAppBtn.addEventListener('click', addNewApp);
     saveConfigBtn.addEventListener('click', saveConfiguration);
+    
+    // Global wallpaper upload
+    const wallpaperInput = document.getElementById('global-wallpaper-input');
+    if (wallpaperInput) {
+        wallpaperInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const base64 = e.target.result;
+                    currentConfig.wallpaper = base64;
+                    showToast('🖼️ Wallpaper uploaded (save to apply)');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
 
     // Close editor with ESC
     document.addEventListener('keydown', (e) => {
