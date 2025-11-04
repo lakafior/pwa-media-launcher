@@ -12,7 +12,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Set wallpaper from config
     function setWallpaper(path) {
         if (path) {
+            console.log('Setting wallpaper:', path);
             body.style.setProperty('--wallpaper-url', `url('${path}')`);
+        } else {
+            console.warn('No wallpaper path provided');
         }
     }// Handle app launch (supports file:// and custom URL schemes)
     // PWA mode: Always open in external browser (Safari)
@@ -957,6 +960,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         if (savedConfig) {
             currentConfig = JSON.parse(savedConfig);
+            
+            // Fallback: if wallpaper is missing in localStorage, load from config.json
+            if (!currentConfig.wallpaper) {
+                const defaultConfig = await loadConfig();
+                currentConfig.wallpaper = defaultConfig.wallpaper;
+                localStorage.setItem('mediaLauncherConfig', JSON.stringify(currentConfig));
+            }
         } else {
             currentConfig = await loadConfig();
             // Save initial config to localStorage
