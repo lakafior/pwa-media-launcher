@@ -16,6 +16,7 @@
 - 🖱️ Mouse + keyboard harmony
 
 **Configuration:**
+- ✏️ **Visual Editor** - edit everything in-app (mobile-friendly!)
 - 💾 Export/Import with Base64 icons - portable, no separate files needed
 - 🔄 Reset to default config from GitHub
 - 💿 localStorage caching for speed
@@ -64,7 +65,32 @@ Search directly in your apps from the header bar:
 
 ## ⚙️ Configuration
 
-### 1. Edit config.json
+### ✏️ Visual Editor (Recommended)
+
+Click the **✏️ Edit** button in the header to open the visual configuration editor:
+
+**🌐 Global Settings:**
+- Edit app title
+- Upload custom wallpaper (auto-converts to Base64)
+
+**📱 Apps Management:**
+- Add new apps with **+ Add New App** button
+- Edit any field: name, URL, color, icon, search settings
+- Upload icons directly (PNG/SVG, auto-converts to Base64)
+- Delete apps with 🗑️ button
+- Changes save to localStorage
+
+**How to use:**
+1. Click ✏️ Edit button (top right)
+2. Modify global settings or apps
+3. Click 💾 Save Changes
+4. Page reloads with new configuration
+
+**Mobile-friendly:** Works great on iPhone, iPad, and Mac!
+
+### 📝 Manual Configuration (Advanced)
+
+Edit `config.json` directly if needed:
 
 ```json
 {
@@ -83,7 +109,7 @@ Search directly in your apps from the header bar:
 }
 ```
 
-**Fields:**
+**App Fields:**
 - `name` - Display name
 - `url` - Website URL or custom scheme (`plex://`, `music://`, etc.)
 - `icon` - Path to icon image (PNG/SVG, 512x512+ recommended)
@@ -98,23 +124,16 @@ Spotify:  #1DB954    Disney+:  #113CCF    Prime:    #00A8E1
 Plex:     #E5A00D    Stremio:  #113CCF    Apple TV: #2c302d
 ```
 
-### 2. Change Wallpaper
+### 🔧 Additional Tools
 
-Replace `images/wallpaper.jpg` or update path in `config.json`:
-```json
-"wallpaper": "images/your-wallpaper.jpg"
-```
-Recommended: 1920x1080 or higher.
-
-### 3. Generate Icons
-
+**Icon Generator:**
 Open `icon-generator.html` in browser to create PWA icons from emoji or images.
 
-Or use your own:
+**PWA Icons:**
 - `images/icon-192.png` (192x192)
 - `images/icon-512.png` (512x512)
 
-### 4. Export/Import
+### 💾 Export/Import
 
 <img width="608" height="700" alt="image" src="https://github.com/user-attachments/assets/bef38ac2-c516-4d77-96d6-a8f5dcdbd2d5" />
 
