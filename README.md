@@ -26,6 +26,8 @@
 - 📱 PWA - install to Dock, works offline
 - 🎭 Dynamic gradients from app colors
 
+---
+
 ## 🚀 Quick Start
 
 ```bash
@@ -41,6 +43,8 @@ npx serve
 1. Open in Safari
 2. Share → **Add to Dock**
 3. Launch from Dock 🎉
+
+---
 
 ## 🔍 Quick Search
 
@@ -63,7 +67,11 @@ Search directly in your apps from the header bar:
 
 **Visual hints:** Search keys appear in bottom-right corner on hover (Y, T, K, etc.)
 
+---
+
 ## ⚙️ Configuration
+
+<img width="700" height="629" alt="image" src="https://github.com/user-attachments/assets/b2532c85-6d4b-4395-bdfb-0d609f63f494" />
 
 ### ✏️ Visual Editor (Recommended)
 
@@ -151,6 +159,8 @@ Open `icon-generator.html` in browser to create PWA icons from emoji or images.
 - ⚙️ Settings → 🔄 Reset to Default
 - Clears localStorage, loads from GitHub
 
+---
+
 ## ⌨️ Keyboard Shortcuts
 
 | Key | Action |
@@ -165,6 +175,8 @@ Open `icon-generator.html` in browser to create PWA icons from emoji or images.
 
 **Quick Search shortcuts:** Type search key + space + query (e.g., `y cats`)
 
+---
+
 ## 🎨 Popular Brand Colors
 
 ```
@@ -172,6 +184,8 @@ YouTube: #FF0000  Twitch: #9146FF  Kick: #53FC18  Netflix: #E50914
 Plex: #E5A00D  Stremio: #113CCF  Spotify: #1DB954  Prime: #00A8E1
 Apple TV: #2c302d  Disney+: #113CCF  Omni: #DC08A4
 ```
+
+---
 
 ## 📁 Project Structure
 
@@ -186,12 +200,16 @@ Apple TV: #2c302d  Disney+: #113CCF  Omni: #DC08A4
 └── images/                 # Icons & wallpaper
 ```
 
+---
+
 ## 🛠️ Tech Stack
 
 - Vanilla JavaScript (no frameworks)
 - CSS3 (backdrop-filter, animations, custom properties)
 - Progressive Web App
 - localStorage API
+
+---
 
 ## 📝 Requirements
 
@@ -203,6 +221,7 @@ Apple TV: #2c302d  Disney+: #113CCF  Omni: #DC08A4
 
 **Made with ❤️ for macOS**
 
+---
 
 ## 🚀 Deploy
 
