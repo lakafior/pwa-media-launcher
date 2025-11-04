@@ -106,6 +106,7 @@
             </div>
             
             <div class="header-actions">
+                <button class="edit-btn" id="edit-btn" title="Edit Apps">✏️</button>
                 <button class="settings-btn" id="settings-btn" title="Settings">⚙️</button>
                 <div class="time" id="current-time"></div>
             </div>
@@ -114,6 +115,25 @@
         <main class="icon-grid" id="icon-grid">
             <!-- Icons loaded from config.json -->
         </main>
+    </div>
+
+    <!-- Editor Modal -->
+    <div class="editor-overlay" id="editor-overlay">
+        <div class="editor-panel">
+            <div class="editor-header">
+                <h2>✏️ Edit Apps</h2>
+                <button class="close-btn" id="close-editor">✕</button>
+            </div>
+            
+            <div class="editor-content" id="editor-content">
+                <!-- App cards will be rendered here -->
+            </div>
+            
+            <div class="editor-footer">
+                <button class="btn btn-add" id="add-app-btn">+ Add New App</button>
+                <button class="btn btn-primary" id="save-config-btn">💾 Save Changes</button>
+            </div>
+        </div>
     </div>
 
     <!-- Settings Panel -->

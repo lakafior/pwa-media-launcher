@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.body.appendChild(iframe);
             setTimeout(() => iframe.remove(), 1000);
         } else {
-            // Open in external browser (Safari) - works in PWA mode
-            window.location.href = url;
+            // Open in external browser (Safari)
+            window.open(url, '_blank');
         }
     }
 
@@ -716,6 +716,175 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && settingsOverlay.classList.contains('active')) {
             closeSettingsPanel();
+        }
+    });
+
+    // Editor Panel
+    const editorOverlay = document.getElementById('editor-overlay');
+    const editBtn = document.getElementById('edit-btn');
+    const closeEditor = document.getElementById('close-editor');
+    const editorContent = document.getElementById('editor-content');
+    const addAppBtn = document.getElementById('add-app-btn');
+    const saveConfigBtn = document.getElementById('save-config-btn');
+
+    let editingApps = [];
+
+    function openEditor() {
+        if (!currentConfig) return;
+        
+        // Clone current apps for editing
+        editingApps = JSON.parse(JSON.stringify(currentConfig.apps));
+        renderEditor();
+        editorOverlay.classList.add('active');
+    }
+
+    function closeEditorPanel() {
+        editorOverlay.classList.remove('active');
+    }
+
+    function renderEditor() {
+        editorContent.innerHTML = '';
+        
+        editingApps.forEach((app, index) => {
+            const card = createAppCard(app, index);
+            editorContent.appendChild(card);
+        });
+    }
+
+    function createAppCard(app, index) {
+        const card = document.createElement('div');
+        card.className = 'app-card';
+        card.innerHTML = `
+            <div class="app-card-header">
+                <img src="${app.icon}" alt="${app.name}" class="app-card-icon" id="preview-${index}">
+                <div class="app-card-title">${app.name}</div>
+                <div class="app-card-actions">
+                    <button class="icon-btn delete" onclick="deleteApp(${index})" title="Delete">🗑️</button>
+                </div>
+            </div>
+            <div class="app-card-form">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" value="${app.name}" onchange="updateApp(${index}, 'name', this.value)" placeholder="App Name">
+                </div>
+                <div class="form-group">
+                    <label>URL</label>
+                    <input type="text" value="${app.url}" onchange="updateApp(${index}, 'url', this.value)" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>Color</label>
+                    <input type="color" value="${app.color}" onchange="updateApp(${index}, 'color', this.value)">
+                </div>
+                <div class="form-group">
+                    <label>Icon</label>
+                    <div class="file-input-wrapper">
+                        <label class="file-input-btn">
+                            📁 Choose Icon
+                            <input type="file" accept="image/*" onchange="handleIconUpload(${index}, this.files[0])">
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Search URL (optional)</label>
+                    <input type="text" value="${app.searchUrl || ''}" onchange="updateApp(${index}, 'searchUrl', this.value)" placeholder="https://...?q=%s">
+                </div>
+                <div class="form-group">
+                    <label>Search Key (optional)</label>
+                    <input type="text" value="${app.searchKey || ''}" onchange="updateApp(${index}, 'searchKey', this.value)" placeholder="y" maxlength="1">
+                </div>
+            </div>
+        `;
+        return card;
+    }
+
+    window.updateApp = function(index, field, value) {
+        editingApps[index][field] = value;
+        
+        // Update title if name changed
+        if (field === 'name') {
+            const titleEl = document.querySelector(`#editor-content .app-card:nth-child(${index + 1}) .app-card-title`);
+            if (titleEl) titleEl.textContent = value;
+        }
+    };
+
+    window.deleteApp = function(index) {
+        if (confirm(`Delete ${editingApps[index].name}?`)) {
+            editingApps.splice(index, 1);
+            renderEditor();
+            showToast('🗑️ App removed');
+        }
+    };
+
+    window.handleIconUpload = async function(index, file) {
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const base64 = e.target.result;
+            editingApps[index].icon = base64;
+            
+            // Update preview
+            const preview = document.getElementById(`preview-${index}`);
+            if (preview) preview.src = base64;
+            
+            showToast('📸 Icon uploaded');
+        };
+        reader.readAsDataURL(file);
+    };
+
+    function addNewApp() {
+        const newApp = {
+            name: 'New App',
+            url: 'https://',
+            icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23666"/><text x="50" y="55" text-anchor="middle" fill="white" font-size="40">?</text></svg>',
+            color: '#666666',
+            searchUrl: '',
+            searchKey: ''
+        };
+        
+        editingApps.push(newApp);
+        renderEditor();
+        
+        // Scroll to bottom
+        editorContent.scrollTop = editorContent.scrollHeight;
+        showToast('➕ New app added');
+    }
+
+    async function saveConfiguration() {
+        try {
+            // Update current config
+            currentConfig.apps = editingApps;
+            
+            // Save to localStorage
+            localStorage.setItem('mediaLauncherConfig', JSON.stringify(currentConfig));
+            
+            showToast('✅ Configuration saved! Reloading...', 2000);
+            
+            // Reload page
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } catch (error) {
+            console.error('Save failed:', error);
+            showToast('❌ Failed to save configuration!', 4000);
+        }
+    }
+
+    // Editor event listeners
+    editBtn.addEventListener('click', openEditor);
+    closeEditor.addEventListener('click', closeEditorPanel);
+    editorOverlay.addEventListener('click', (e) => {
+        if (e.target === editorOverlay) {
+            closeEditorPanel();
+        }
+    });
+    addAppBtn.addEventListener('click', addNewApp);
+    saveConfigBtn.addEventListener('click', saveConfiguration);
+
+    // Close editor with ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && editorOverlay.classList.contains('active')) {
+            closeEditorPanel();
         }
     });
 
