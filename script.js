@@ -16,6 +16,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }// Handle app launch (supports file:// and custom URL schemes)
     // PWA mode: Always open in external browser (Safari)
+    function openInBrowser(url) {
+        const link = document.createElement('a');
+        link.href = url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
     function handleAppLaunch(url) {
         if (url.startsWith('file://')) {
             // For local apps, create hidden iframe to trigger app open
@@ -25,8 +35,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.body.appendChild(iframe);
             setTimeout(() => iframe.remove(), 1000);
         } else {
-            // Open in external browser (Safari)
-            window.open(url, '_blank');
+            // Open in external browser (Safari) using anchor tag
+            openInBrowser(url);
         }
     }
 
@@ -1061,7 +1071,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         function performSearch(app, query) {
             const searchUrl = app.searchUrl.replace('%s', encodeURIComponent(query));
-            window.open(searchUrl, '_blank');
+            openInBrowser(searchUrl);
             quickSearchInput.value = '';
             searchHint.textContent = '';
             searchResults.classList.remove('active');
@@ -1102,7 +1112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const app = searchKeyMap[potentialKey];
             const searchQuery = words.slice(1).join(' ');
             const searchUrl = app.searchUrl.replace('%s', encodeURIComponent(searchQuery));
-            window.open(searchUrl, '_blank');
+            openInBrowser(searchUrl);
         } else {
             // Use selected result or first app
             const selectedIndex = Array.from(searchResults.querySelectorAll('.quick-search-result-item'))
@@ -1110,11 +1120,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             if (selectedIndex >= 0 && searchableApps[selectedIndex]) {
                 const searchUrl = searchableApps[selectedIndex].searchUrl.replace('%s', encodeURIComponent(query));
-                window.open(searchUrl, '_blank');
+                openInBrowser(searchUrl);
             } else if (searchableApps.length > 0) {
                 // Default to first searchable app
                 const searchUrl = searchableApps[0].searchUrl.replace('%s', encodeURIComponent(query));
-                window.open(searchUrl, '_blank');
+                openInBrowser(searchUrl);
             }
         }
         
